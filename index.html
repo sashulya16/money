@@ -6,12 +6,12 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Деньги">
+<meta name="apple-mobile-web-app-title" content="Berlin Life">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" href="icon-192.png">
 <meta name="theme-color" content="#ece7df">
-<title>Наши деньги</title>
+<title>Berlin Life</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -265,6 +265,15 @@
   .lbox .btn{width:100%;background:#f5f0e8;color:#1f1b16;margin-top:4px;box-shadow:0 0 26px rgba(245,240,232,.35)}
   .lbox .switch{display:block;margin:14px auto 0;background:none;border:0;color:rgba(255,255,255,.75);font-size:13.5px;cursor:pointer}
   .lbox .err{color:#ffb4a2}
+
+  .wi{display:flex;align-items:center;gap:13px;padding:15px 16px;border-top:1px solid var(--line);cursor:pointer}
+  .wi:first-child{border-top:0}
+  .wi .t{flex:1;min-width:0}
+  .wi .t b{display:block;font-size:15px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .wi .t span{font-size:12px;color:var(--muted)}
+  .wi .p{font-size:15px;font-weight:500;white-space:nowrap}
+  .wi.bought{opacity:.5}.wi.bought .t b{text-decoration:line-through}
+  .wi a{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--glass2);border:1px solid var(--stroke);color:var(--text);text-decoration:none;font-size:14px;flex:none}
 </style>
 </head>
 <body class="out boot">
@@ -272,7 +281,7 @@
   <img src="dog-money.jpg" alt="">
   <div class="lbox">
     <div class="cap">Б е р л и н · 2026</div>
-    <h2>Наши<br>денежки</h2>
+    <h2>Berlin<br>Life</h2>
     <input class="field" id="lEmail" type="email" placeholder="Почта" autocomplete="email">
     <input class="field" id="lPass" type="password" placeholder="Пароль" autocomplete="current-password">
     <div class="err" id="lErr"></div>
@@ -285,7 +294,7 @@
   <section class="screen on" id="scr-home">
     <div class="top">
       <img class="ava" src="dog-card.jpg" alt="">
-      <div class="hi"><span class="cap" id="today"></span><h1 id="hello">Наши денежки</h1></div>
+      <div class="hi"><span class="cap" id="today"></span><h1 id="hello">Berlin Life</h1></div>
       <button class="circle" data-more aria-label="Ещё"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg></button>
     </div>
     <div class="hero">
@@ -361,6 +370,12 @@
     <div class="pagehead"><button class="circle" data-go="home" aria-label="Назад"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><h1 class="h1">Заметки</h1><button class="pill" id="noteAdd">+ Заметка</button></div>
     <div class="notes" id="notes"></div>
   </section>
+  <section class="screen" id="scr-wish">
+    <div class="pagehead"><button class="circle" data-go="home" aria-label="Назад"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><h1 class="h1">Вишлист</h1><button class="pill" id="wAdd">+ Хочу</button></div>
+    <div class="seg" id="wSeg" style="margin-bottom:14px"><button data-o="all" class="on">Все</button><button data-o="sasha">Саша</button><button data-o="denis">Денис</button><button data-o="both">Общее</button></div>
+    <div class="card rowx" style="margin-bottom:14px"><span class="cap">Всего хотим на</span><b id="wTotal" style="font-size:20px;font-weight:300">0 €</b></div>
+    <div id="wList"></div>
+  </section>
 </div>
 
 <nav class="nav">
@@ -380,6 +395,7 @@
       <button class="tile" data-go="shop"><span class="e">🛒</span><div><b>Покупки</b><span id="tShop">Список пуст</span></div></button>
       <button class="tile" data-go="cal"><span class="e">📅</span><div><b>Термины</b><span id="tCal">Нет терминов</span></div></button>
       <button class="tile" data-go="us"><span class="e">🐶</span><div><b>Таксы и записочки</b><span id="tUs">Настроение и чатик</span></div></button>
+      <button class="tile" data-go="wish"><span class="e">🎀</span><div><b>Вишлист</b><span id="tWish">Что хотим купить</span></div></button>
       <button class="tile" data-go="notes"><span class="e">📝</span><div><b>Заметки</b><span id="tNotes">Адреса, документы</span></div></button>
     </div>
     <button class="logout" id="logout">Выйти из аккаунта</button>
@@ -437,6 +453,23 @@
   </div>
 </div>
 
+<!-- WISH SHEET -->
+<div class="sheet-bg" id="wishBg">
+  <div class="sheet">
+    <div class="grab"></div>
+    <h3 class="h2" id="wTitleH">Хочу 🎀</h3>
+    <input class="field" id="wTitle" placeholder="Что хочется? (например, кроссовки)" maxlength="100">
+    <div class="row2"><input class="field" id="wPrice" inputmode="decimal" placeholder="Цена, €"><input class="field" id="wUrl" type="url" placeholder="Ссылка (можно не писать)"></div>
+    <div class="seg" id="wOwner"><button data-o="sasha" class="on">Саше</button><button data-o="denis">Денису</button><button data-o="both">Общее</button></div>
+    <div class="err" id="wErr"></div>
+    <div class="actions">
+      <button class="btn danger" id="wDel" style="display:none">Удалить</button>
+      <button class="btn ghost" id="wBought" style="display:none">Куплено 🎉</button>
+      <button class="btn main" id="wSave">Сохранить</button>
+    </div>
+  </div>
+</div>
+
 <!-- MOOD SHEET -->
 <div class="sheet-bg" id="moodBg">
   <div class="sheet">
@@ -485,6 +518,7 @@
   const MOOD=Object.fromEntries(MOODS.map(m=>[m[0],m]));
 
   let sb=null,ready=false,me=null,signup=false;
+  let wish=[],wF='all',editW=null,wOwner='sasha';
   let txs=[],settings=null,events=[],shop=[],notes=[],msgs=[],moods={};
   let mode='out',editing=null,chip=null,busy=false,histF='all',monthOff=0,editEv=null,editNote=null;
 
@@ -716,7 +750,45 @@
     closeSheets();loadNotes();
   }
 
-  function render(){renderHome();renderHistory();renderStats();renderShop();renderEvents();renderUs();}
+  const OWN={sasha:'Саше',denis:'Денису',both:'Общее'};
+  function renderWish(){
+    const box=$('wList');box.innerHTML='';
+    const list=wish.filter(w=>wF==='all'||w.owner===wF).sort((a,b)=>(a.bought-b.bought)||(new Date(b.created_at)-new Date(a.created_at)));
+    const total=list.filter(w=>!w.bought).reduce((s,w)=>s+(Number(w.price)||0),0);
+    $('wTotal').textContent=fmt(total);
+    $('tWish').textContent=wish.filter(w=>!w.bought).length?wish.filter(w=>!w.bought).length+' хотелок':'Что хотим купить';
+    if(!list.length){box.className='';box.innerHTML='<div class="card empty">Пока пусто. Нажми «+ Хочу» 🎀</div>';return;}
+    box.className='list';
+    for(const w of list){
+      const el=document.createElement('div');el.className='wi'+(w.bought?' bought':'');
+      let link='';try{if(w.url){const u=new URL(w.url);if(u.protocol==='https:'||u.protocol==='http:')link='<a href="'+esc(u.href)+'" target="_blank" rel="noopener" aria-label="Открыть">↗</a>';}}catch(e){}
+      el.innerHTML='<div class="t"><b>'+esc(w.title)+'</b><span>'+esc(OWN[w.owner]||'')+(w.bought?' · куплено':'')+'</span></div><span class="p">'+(w.price?fmt(w.price):'')+'</span>'+link;
+      el.onclick=e=>{if(e.target.closest('a'))return;openWish(w);};
+      box.appendChild(el);
+    }
+  }
+  function setOwner(o){wOwner=o;$('wOwner').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.o===o));}
+  function openWish(w){
+    editW=w||null;$('wTitleH').textContent=w?(w.bought?'Куплено 🎉':'Хочу 🎀'):'Хочу 🎀';
+    $('wTitle').value=w?w.title:'';$('wPrice').value=w&&w.price?String(w.price).replace('.',','):'';$('wUrl').value=w?(w.url||''):'';
+    setOwner(w?w.owner:(me||'sasha'));$('wDel').style.display=w?'':'none';$('wBought').style.display=w&&!w.bought?'':'none';$('wErr').textContent='';
+    openSheet('wishBg');if(!w)setTimeout(()=>$('wTitle').focus(),80);
+  }
+  async function saveWish(){
+    const p=parseNum($('wPrice').value);
+    const d={title:$('wTitle').value.trim(),price:isNaN(p)?null:Math.round(p*100)/100,url:$('wUrl').value.trim()||null,owner:wOwner};
+    if(!d.title){$('wErr').textContent='Напиши, что хочется';return;}
+    const r=editW?await sb.from('wishlist').update(d).eq('id',editW.id):await sb.from('wishlist').insert(d);
+    if(r.error){$('wErr').textContent='Не получилось сохранить';return;}
+    closeSheets();loadWish();
+  }
+  async function boughtWish(){
+    if(!editW)return;const w=editW;
+    await sb.from('wishlist').update({bought:true}).eq('id',w.id);closeSheets();loadWish();
+    openTx('out',null);if(w.price)$('fAmount').value=String(w.price).replace('.',',');$('fWhat').value=w.title;chip='Покупки';renderChips();
+    toast('Ура, куплено 🎉 Запиши трату');
+  }
+  function render(){renderHome();renderHistory();renderStats();renderShop();renderEvents();renderUs();renderWish();}
 
   /* ---------- navigation & sheets ---------- */
   function go(name){
@@ -771,6 +843,10 @@
   $('fSave').onclick=saveTx;
   $('fAmount').addEventListener('keydown',e=>{if(e.key==='Enter')saveTx();});
   $('evAdd').onclick=()=>openEv(null);$('evSave').onclick=saveEv;
+  $('wAdd').onclick=()=>openWish(null);$('wSave').onclick=saveWish;$('wBought').onclick=boughtWish;
+  $('wOwner').querySelectorAll('button').forEach(b=>b.onclick=()=>setOwner(b.dataset.o));
+  $('wSeg').querySelectorAll('button').forEach(b=>b.onclick=()=>{wF=b.dataset.o;$('wSeg').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));renderWish();});
+  armDelete($('wDel'),async()=>{if(!editW)return;await sb.from('wishlist').delete().eq('id',editW.id);closeSheets();loadWish();toast('Удалено');});
   $('noteAdd').onclick=()=>openNote(null);$('nSave').onclick=saveNote;
   $('shopAdd').onclick=addShop;$('shopIn').addEventListener('keydown',e=>{if(e.key==='Enter')addShop();});
   $('shopClear').onclick=async()=>{const ids=shop.filter(i=>i.done).map(i=>i.id);if(!ids.length)return;await sb.from('shopping').delete().in('id',ids);loadShop();};
@@ -791,11 +867,12 @@
   async function loadShop(){const r=await sb.from('shopping').select('*');if(!r.error){shop=r.data;renderShop();}}
   async function loadNotes(){const r=await sb.from('notes').select('*').order('updated_at',{ascending:false});if(!r.error){notes=r.data;renderUs();}}
   async function loadMsgs(){const r=await sb.from('messages').select('*').order('created_at',{ascending:true}).limit(300);if(!r.error){msgs=r.data;renderUs();renderHome();}}
+  async function loadWish(){const r=await sb.from('wishlist').select('*');if(!r.error){wish=r.data.map(w=>Object.assign({},w,{price:w.price==null?null:Number(w.price)}));renderWish();}}
   async function loadMoods(){const r=await sb.from('moods').select('*');if(!r.error){moods=Object.fromEntries(r.data.map(m=>[m.who,m]));renderUs();renderHome();}}
   async function loadProfile(){const u=(await sb.auth.getUser()).data.user;if(!u)return;
     const r=await sb.from('profiles').select('*').eq('user_id',u.id).maybeSingle();
     if(r.data){me=r.data.who;}else{$('whoBg').classList.add('open');}}
-  const loaders={tx:loadTx,settings:loadSettings,events:loadEvents,shopping:loadShop,notes:loadNotes,messages:loadMsgs,moods:loadMoods};
+  const loaders={tx:loadTx,settings:loadSettings,events:loadEvents,shopping:loadShop,notes:loadNotes,messages:loadMsgs,moods:loadMoods,wishlist:loadWish};
   let chan=null;
   async function startApp(){
     document.body.classList.remove('out','boot');ready=true;
