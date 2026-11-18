@@ -373,7 +373,6 @@
   <section class="screen" id="scr-wish">
     <div class="pagehead"><button class="circle" data-go="home" aria-label="Назад"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><h1 class="h1">Вишлист</h1><button class="pill" id="wAdd">+ Хочу</button></div>
     <div class="seg" id="wSeg" style="margin-bottom:14px"><button data-o="all" class="on">Все</button><button data-o="sasha">Саша</button><button data-o="denis">Денис</button><button data-o="both">Общее</button></div>
-    <div class="card rowx" style="margin-bottom:14px"><span class="cap">Всего хотим на</span><b id="wTotal" style="font-size:20px;font-weight:300">0 €</b></div>
     <div id="wList"></div>
   </section>
 </div>
@@ -755,7 +754,7 @@
     const box=$('wList');box.innerHTML='';
     const list=wish.filter(w=>wF==='all'||w.owner===wF).sort((a,b)=>(a.bought-b.bought)||(new Date(b.created_at)-new Date(a.created_at)));
     const total=list.filter(w=>!w.bought).reduce((s,w)=>s+(Number(w.price)||0),0);
-    $('wTotal').textContent=fmt(total);
+    
     $('tWish').textContent=wish.filter(w=>!w.bought).length?wish.filter(w=>!w.bought).length+' хотелок':'Что хотим купить';
     if(!list.length){box.className='';box.innerHTML='<div class="card empty">Пока пусто. Нажми «+ Хочу» 🎀</div>';return;}
     box.className='list';
